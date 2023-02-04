@@ -1,3 +1,25 @@
 ##在「長恨歌」中
 #找出文章中出現最多的字
 #計算文章中「扣掉標點符號」後的字數
+
+
+import urllib.request
+import BeautifulSoup
+import sys
+#print(sys.getdefaultencoding())
+fp = urllib.request.urlopen("https://jgirl.ddns.net/WebPages/%E9%95%B7%E6%81%A8%E6%AD%8C.htm")
+mybytes = fp.read()
+
+mystr = mybytes.decode(encoding='utf-8')
+#mystr = mystr.encode(encoding='gbk')
+html = mystr.text
+bf = BeautifulSoup(html,'lxml')
+texts = bf.find_all('div',class_ = 'showtxt')
+fp.close()
+print(texts[0].decode())
+
+
+
+
+
+
