@@ -4,7 +4,7 @@
 
 
 import urllib.request
-import BeautifulSoup
+from bs4 import BeautifulSoup
 import sys
 #print(sys.getdefaultencoding())
 fp = urllib.request.urlopen("https://jgirl.ddns.net/WebPages/%E9%95%B7%E6%81%A8%E6%AD%8C.htm")
@@ -12,11 +12,61 @@ mybytes = fp.read()
 
 mystr = mybytes.decode(encoding='utf-8')
 #mystr = mystr.encode(encoding='gbk')
-html = mystr.text
-bf = BeautifulSoup(html,'lxml')
-texts = bf.find_all('div',class_ = 'showtxt')
+#html = mystr.text
+soup = BeautifulSoup(mystr,'lxml')
+#print(soup)
+texts = soup.find_all('div','peoem','/div')
+#print(texts)
+str=soup.get_text()#.find('漢皇重色思傾國', beg=0, end=len('此恨綿綿無絕期'))
+
+##Search string ID
+#start ID 27
+#end ID 1050
+#str=str.find('此恨綿綿無絕期。')
+#print(str)
+
+##output peoem
+
+peoem=(str[27:1050])
+
+
+##Replace the sign
+
+peoem=peoem.replace("。\n", "")
+peoem=peoem.replace("，", "")
+peoem=peoem.replace("；", "")
+peoem=peoem.replace("？", "")
+peoem=peoem.replace("：「", "")
+peoem=peoem.replace("。」", "")
+
+print(peoem)
+
+##Start to count max, min and total length
+maxStr = ''
+maxStrShow = 0
+
+
+maxChar = ''
+maxFreq = 0
+
+
+for i in peoem:
+    freq = peoem.count(i)
+    #print(i,freq)
+    if freq > maxFreq:
+        maxFreq = freq
+        maxChar = i
+print(maxChar)
+print(maxFreq)
+print(len(peoem))
+
 fp.close()
-print(texts[0].decode())
+
+
+
+
+
+
 
 
 
